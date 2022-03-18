@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>hexo &amp; gitpage搭建记录</title>
+    <url>/2022/03/18/Hexo&amp;gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
+<li><p>git v2.33.0</p>
+</li>
+<li><p>windows10 21H2</p>
+</li>
+<li><p>node v16.14.1</p>
+</li>
+<li><p>ssh</p>
+</li>
+</ul>
+<h2 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h2><h3 id="配置ssh密钥"><a href="#配置ssh密钥" class="headerlink" title="配置ssh密钥"></a>配置ssh密钥</h3><ul>
+<li>全局配置本地git账户</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱地址&quot;</span><br><span class="line">#对应github邮箱和用户名</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成ssh key</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</span><br><span class="line">#默认生成路径在C:\Users\用户名\.ssh目录下</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看公钥内容，先在github添加生成的公钥</li>
+</ul>
+<p><img src="https://s2.loli.net/2022/03/17/hCuK1eJrQzsPS3l.png" alt="image.png"></p>
+<ul>
+<li>然后添加到本地信任列表，顺序不能反，否则会提示权限错误</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>出现 <strong>Hi xxx! You’ve successfully authenticated, but GitHub does not provide shell access</strong> 即为配置成功</li>
+</ul>
+<h3 id="新建github仓库"><a href="#新建github仓库" class="headerlink" title="新建github仓库"></a>新建github仓库</h3><ul>
+<li>新建名为<strong>用户名.github.io</strong>的仓库，如下，该页面会自动认为是gitpage仓库，过几分钟后访问用户名.github.io即可访问页面内容</li>
+</ul>
+<p><img src="https://s2.loli.net/2022/03/17/TmKIPGQkp4jZxBi.png" alt="image.png"></p>
+<h3 id="下载和部署hexo"><a href="#下载和部署hexo" class="headerlink" title="下载和部署hexo"></a>下载和部署hexo</h3><ul>
+<li>下载cnpm，国内速度较快</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化hexo</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli#下载hexo</span><br><span class="line">hexo init Blog			#初始化hexo 新建Blog文件夹</span><br><span class="line">cd Blog</span><br><span class="line">cnpm install			#进入文件夹安装依赖</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>配置Next主题，<a href="https://github.com/theme-next/hexo-theme-next">下载主题</a>，解压到Blog的themes文件夹，在解压好的Next文件夹使用cnpm install安装依赖</p>
+</li>
+<li><p>在Blog目录下_config.yml中的theme修改为next</p>
+</li>
+</ul>
+<p><img src="https://s2.loli.net/2022/03/17/KGn3ZldABYkcJEX.png" alt="image.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean					#清除缓存，尤其是在更换主题后</span><br><span class="line">hexo g						#生成静态文件</span><br><span class="line">hexo d						#部署网站</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>在Blog文件夹启动hexo服务，访问本地4000端口即可访问，这是已经配置好Next主题的页面</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/03/17/ZGl43FAfRmMj8og.png" alt="image.png"></p>
+<h3 id="部署到github"><a href="#部署到github" class="headerlink" title="部署到github"></a>部署到github</h3><ul>
+<li>修改Blog下配置文件，格式如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: git@github.com:msfisgood/msfisgood.github.io.git,master</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>安装部署插件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-deployer-git --save</span><br><span class="line">hexo g -d 								#部署上传</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改git仓库分支，运行完上一步还需要修改分支，hexo的配置为master分支，仓库默认为main分支，需要在仓库设置-&gt;页面中修改分支为master</li>
+</ul>
+<p><img src="https://s2.loli.net/2022/03/17/TvpdI6wfGuFSAnl.png" alt="image.png"></p>
+<ul>
+<li>过几分钟，访问<a href="https://msfisgood.github.io/%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E9%A1%B5%E9%9D%A2%E4%BA%86">https://msfisgood.github.io/就可以看到页面了</a></li>
+</ul>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
+<li>后续会继续整理一些hexo技巧和美化方面的内容</li>
+</ul>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>hexo&amp;Next</tag>
+      </tags>
+  </entry>
+</search>
