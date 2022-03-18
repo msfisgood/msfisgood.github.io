@@ -23,25 +23,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="hexo &amp; gitpage搭建记录基础环境 git v2.33.0  windows10 21H2  node v16.14.1  ssh   搭建流程配置ssh密钥 全局配置本地git账户  123git config --global user.name &quot;用户名&quot;git config --global user.email &quot;邮箱地址&quot;#对应">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Y1Shui&#39;s blog">
-<meta property="og:url" content="http://example.com/1/Hexo&gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2.html">
+  <meta name="description" content="基础环境 git v2.33.0  windows10 21H2  node v16.14.1  ssh   搭建流程配置ssh密钥 全局配置本地git账户  123git config --global user.name &quot;用户名&quot;git config --global user.email &quot;邮箱地址&quot;#对应github邮箱和用户名   生成ssh k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo &amp; gitpage搭建记录">
+<meta property="og:url" content="http://example.com/2022/03/18/Hexo&gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/index.html">
 <meta property="og:site_name" content="Y1Shui&#39;s blog">
-<meta property="og:description" content="hexo &amp; gitpage搭建记录基础环境 git v2.33.0  windows10 21H2  node v16.14.1  ssh   搭建流程配置ssh密钥 全局配置本地git账户  123git config --global user.name &quot;用户名&quot;git config --global user.email &quot;邮箱地址&quot;#对应">
+<meta property="og:description" content="基础环境 git v2.33.0  windows10 21H2  node v16.14.1  ssh   搭建流程配置ssh密钥 全局配置本地git账户  123git config --global user.name &quot;用户名&quot;git config --global user.email &quot;邮箱地址&quot;#对应github邮箱和用户名   生成ssh k">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2022/03/17/hCuK1eJrQzsPS3l.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/17/TmKIPGQkp4jZxBi.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/17/KGn3ZldABYkcJEX.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/17/ZGl43FAfRmMj8og.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/17/TvpdI6wfGuFSAnl.png">
-<meta property="article:published_time" content="2022-03-17T08:24:05.769Z">
-<meta property="article:modified_time" content="2022-03-17T08:23:51.517Z">
+<meta property="article:published_time" content="2022-03-18T07:43:58.000Z">
+<meta property="article:modified_time" content="2022-03-18T07:46:01.565Z">
 <meta property="article:author" content="Y1Shui">
+<meta property="article:tag" content="hexo&amp;Next">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s2.loli.net/2022/03/17/hCuK1eJrQzsPS3l.png">
 
-<link rel="canonical" href="http://example.com/1/Hexo&gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2">
+<link rel="canonical" href="http://example.com/2022/03/18/Hexo&gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
 
 
 <script id="page-configurations">
@@ -49,13 +50,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title> | Y1Shui's blog
-</title>
+  <title>hexo & gitpage搭建记录 | Y1Shui's blog</title>
   
 
 
@@ -167,33 +167,76 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">
-</h1>
-
-<div class="post-meta">
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/18/Hexo&gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
 
-</div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Y1Shui">
+      <meta itemprop="description" content="奋力前行">
+    </span>
 
-</header>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Y1Shui's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo & gitpage搭建记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-18 15:43:58 / 修改时间：15:46:01" itemprop="dateCreated datePublished" datetime="2022-03-18T15:43:58+08:00">2022-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-      
-      
-      <div class="post-body">
-          <h1 id="hexo-amp-gitpage搭建记录"><a href="#hexo-amp-gitpage搭建记录" class="headerlink" title="hexo &amp; gitpage搭建记录"></a>hexo &amp; gitpage搭建记录</h1><h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
+        <h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
 <li><p>git v2.33.0</p>
 </li>
 <li><p>windows10 21H2</p>
@@ -277,16 +320,28 @@
 <li>后续会继续整理一些hexo技巧和美化方面的内容</li>
 </ul>
 
-      </div>
-      
-      
-      
     </div>
-    
 
     
     
     
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo-Next/" rel="tag"># hexo&Next</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
 
 
           </div>
@@ -337,12 +392,14 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo-amp-gitpage%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">hexo &amp; gitpage搭建记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">基础环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">搭建流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEssh%E5%AF%86%E9%92%A5"><span class="nav-number">1.2.1.</span> <span class="nav-text">配置ssh密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAgithub%E4%BB%93%E5%BA%93"><span class="nav-number">1.2.2.</span> <span class="nav-text">新建github仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%92%8C%E9%83%A8%E7%BD%B2hexo"><span class="nav-number">1.2.3.</span> <span class="nav-text">下载和部署hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0github"><span class="nav-number">1.2.4.</span> <span class="nav-text">部署到github</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">1.3.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">基础环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">搭建流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEssh%E5%AF%86%E9%92%A5"><span class="nav-number">2.1.</span> <span class="nav-text">配置ssh密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAgithub%E4%BB%93%E5%BA%93"><span class="nav-number">2.2.</span> <span class="nav-text">新建github仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%92%8C%E9%83%A8%E7%BD%B2hexo"><span class="nav-number">2.3.</span> <span class="nav-text">下载和部署hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0github"><span class="nav-number">2.4.</span> <span class="nav-text">部署到github</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Y1Shui"
+      src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">Y1Shui</p>
   <div class="site-description" itemprop="description">奋力前行</div>
 </div>
@@ -351,12 +408,29 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/msfisgood" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;msfisgood" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
@@ -389,7 +463,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">2k</span>
+    <span title="站点总字数">1k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
