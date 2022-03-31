@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>hexo &amp; gitpage搭建记录</title>
-    <url>/2022/03/18/Hexo&amp;gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <title>Hexo &amp; Gitpage搭建记录</title>
+    <url>/2022/03/18/Hexo&amp;Gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
-<li><p>git v2.33.0</p>
+<li><p>Git v2.33.0</p>
 </li>
-<li><p>windows10 21H2</p>
+<li><p>Windows10 21H2</p>
 </li>
-<li><p>node v16.14.1</p>
+<li><p>Node v16.14.1</p>
 </li>
-<li><p>ssh</p>
+<li><p>SSH</p>
 </li>
 </ul>
 <h2 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h2><h3 id="配置ssh密钥"><a href="#配置ssh密钥" class="headerlink" title="配置ssh密钥"></a>配置ssh密钥</h3><ul>
@@ -92,6 +92,47 @@
       </categories>
       <tags>
         <tag>hexo&amp;Next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Sqlmap tamper</title>
+    <url>/2022/03/28/sqlmap_tamper/</url>
+    <content><![CDATA[<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li>tample<ul>
+<li>sqlmap中的模块，用于自定义编码payload绕过防护设备</li>
+<li>本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
+</ul>
+</li>
+<li>查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码</li>
+<li>js2py库，用于使用python调用js</li>
+</ul>
+<h2 id="编写tample"><a href="#编写tample" class="headerlink" title="编写tample"></a>编写tample</h2><ol>
+<li>需要调用外部js，即获取到的js加密代码</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png"></p>
+<ol start="2">
+<li><p>js2py库，用于调用js</p>
+<p>​    这里遇到了一些问题，开始使用的方法是<code>eval_js()</code>，但是该方法只能调用单函数js文件，遇到多函数的js文件会调用最后一个函数</p>
+<p>​    <code>EvalJs()</code>，可以执行多函数js代码，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">with open(&#x27;./get_key.js&#x27;) as fp:</span><br><span class="line">20     js = fp.read()</span><br><span class="line">21     # ctx2 = execjs.compile(js)</span><br><span class="line">22     context = js2py.EvalJs()</span><br><span class="line">23     context.execute(js)</span><br><span class="line">24     vl5x=context.getKey(cookie)		//getKey是get_key.js中的方法，如果要调用其他方法，例如context.main即调用main方法</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>payload处理</p>
+</li>
+</ol>
+<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tample进行处理，所以只能通过tample把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
+<p><img src="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png"></p>
+<ol start="4">
+<li>到这里思路基本理清楚了，原参数–&gt;调用tample–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png"></p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>sqlmap -r .\11.txt -p &quot;xxx&quot; --tamper=test.py --dbms=mssql --force-ssl --proxy=http://127.0.0.1:8080</code></p>
+<p><img src="https://s2.loli.net/2022/03/31/HhA1W5ZO7BxiDeM.png"></p>
+]]></content>
+      <categories>
+        <category>渗透技巧</category>
+      </categories>
+      <tags>
+        <tag>Sqlmap</tag>
       </tags>
   </entry>
 </search>

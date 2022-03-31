@@ -23,19 +23,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="strong {     font-size: 26px;   }">
-<meta property="og:type" content="website">
-<meta property="og:title" content="About me">
-<meta property="og:url" content="http://example.com/about/index.html">
+  <meta name="description" content="准备 tample sqlmap中的模块，用于自定义编码payload绕过防护设备 本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收   查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码 js2py库，用于使用python调用js  编写tample 需要调用外部js，即获取到的js加密代码    js2py库，用于调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sqlmap tamper">
+<meta property="og:url" content="http://example.com/2022/03/28/sqlmap_tamper/index.html">
 <meta property="og:site_name" content="Y1Shui&#39;s blog">
-<meta property="og:description" content="strong {     font-size: 26px;   }">
+<meta property="og:description" content="准备 tample sqlmap中的模块，用于自定义编码payload绕过防护设备 本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收   查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码 js2py库，用于使用python调用js  编写tample 需要调用外部js，即获取到的js加密代码    js2py库，用于调">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-18T02:22:55.000Z">
-<meta property="article:modified_time" content="2022-03-18T10:09:12.152Z">
+<meta property="og:image" content="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/31/HhA1W5ZO7BxiDeM.png">
+<meta property="article:published_time" content="2022-03-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-31T07:19:12.237Z">
 <meta property="article:author" content="Y1Shui">
+<meta property="article:tag" content="Sqlmap">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png">
 
-<link rel="canonical" href="http://example.com/about/">
+<link rel="canonical" href="http://example.com/2022/03/28/sqlmap_tamper/">
 
 
 <script id="page-configurations">
@@ -43,13 +49,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>About me | Y1Shui's blog
-</title>
+  <title>Sqlmap tamper | Y1Shui's blog</title>
   
 
 
@@ -189,49 +194,166 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">About me
-</h1>
-
-<div class="post-meta">
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/28/sqlmap_tamper/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Y1Shui">
+      <meta itemprop="description" content="奋力前行">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Y1Shui's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Sqlmap tamper
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-28 00:00:00" itemprop="dateCreated datePublished" datetime="2022-03-28T00:00:00+08:00">2022-03-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-31 15:19:12" itemprop="dateModified" datetime="2022-03-31T15:19:12+08:00">2022-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">渗透技巧</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>802</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li>tample<ul>
+<li>sqlmap中的模块，用于自定义编码payload绕过防护设备</li>
+<li>本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
+</ul>
+</li>
+<li>查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码</li>
+<li>js2py库，用于使用python调用js</li>
+</ul>
+<h2 id="编写tample"><a href="#编写tample" class="headerlink" title="编写tample"></a>编写tample</h2><ol>
+<li>需要调用外部js，即获取到的js加密代码</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png"></p>
+<ol start="2">
+<li><p>js2py库，用于调用js</p>
+<p>​    这里遇到了一些问题，开始使用的方法是<code>eval_js()</code>，但是该方法只能调用单函数js文件，遇到多函数的js文件会调用最后一个函数</p>
+<p>​    <code>EvalJs()</code>，可以执行多函数js代码，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">with open(&#x27;./get_key.js&#x27;) as fp:</span><br><span class="line">20     js = fp.read()</span><br><span class="line">21     # ctx2 = execjs.compile(js)</span><br><span class="line">22     context = js2py.EvalJs()</span><br><span class="line">23     context.execute(js)</span><br><span class="line">24     vl5x=context.getKey(cookie)		//getKey是get_key.js中的方法，如果要调用其他方法，例如context.main即调用main方法</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>payload处理</p>
+</li>
+</ol>
+<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tample进行处理，所以只能通过tample把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
+<p><img src="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png"></p>
+<ol start="4">
+<li>到这里思路基本理清楚了，原参数–&gt;调用tample–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png"></p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>sqlmap -r .\11.txt -p &quot;xxx&quot; --tamper=test.py --dbms=mssql --force-ssl --proxy=http://127.0.0.1:8080</code></p>
+<p><img src="https://s2.loli.net/2022/03/31/HhA1W5ZO7BxiDeM.png"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+
+<div class="wechat_channel">
+  <br>
+  <!-- 这里添加你的二维码图片 -->
+  <img src ="/images/longcode_for_wechat.png">
+  <!-- <span>公众号</span> -->
 </div>
 
-</header>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Y1Shui
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/03/28/sqlmap_tamper/" title="Sqlmap tamper">http://example.com/2022/03/28/sqlmap_tamper/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-      
-      
-      
-      <div class="post-body">
-          <style>
-  strong {
-    font-size: 26px;
-  }
-</style>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Sqlmap/" rel="tag"><i class="fa fa-tag"></i> Sqlmap</a>
+          </div>
+
+        
 
 
-      </div>
-      
-      
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/18/Hexo&Gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="prev" title="Hexo & Gitpage搭建记录">
+      <i class="fa fa-chevron-left"></i> Hexo & Gitpage搭建记录
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
+      </footer>
     
+  </article>
+  
+  
+  
 
-    
-    
-    
 
 
           </div>
@@ -282,6 +404,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99tample"><span class="nav-number">2.</span> <span class="nav-text">编写tample</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
