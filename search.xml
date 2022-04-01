@@ -16,12 +16,12 @@
 <h2 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h2><h3 id="配置ssh密钥"><a href="#配置ssh密钥" class="headerlink" title="配置ssh密钥"></a>配置ssh密钥</h3><ul>
 <li>全局配置本地git账户</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱地址&quot;</span><br><span class="line">#对应github邮箱和用户名</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#对应github邮箱和用户名</span><br><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱地址&quot;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>生成ssh key</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</span><br><span class="line">#默认生成路径在C:\Users\用户名\.ssh目录下</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#默认生成路径在C:\Users\用户名\.ssh目录下</span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>查看公钥内容，先在github添加生成的公钥</li>
@@ -91,7 +91,7 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>hexo&amp;Next</tag>
+        <tag>Hexo&amp;Next</tag>
       </tags>
   </entry>
   <entry>
