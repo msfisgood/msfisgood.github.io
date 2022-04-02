@@ -23,19 +23,19 @@
     var CONFIG = {"hostname":"msfisgood.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="准备 tample sqlmap中的模块，用于自定义编码payload绕过防护设备 本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收   查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码 js2py库，用于使用python调用js  编写tample 需要调用外部js，即获取到的js加密代码    js2py库，用于调">
+  <meta name="description" content="准备 tamper sqlmap中的模块，用于自定义编码payload绕过防护设备 本文使用tamper并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收   查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码 js2py库，用于使用python调用js  编写tamper 需要调用外部js，即获取到的js加密代码    js2py库，用于调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqlmap tamper">
 <meta property="og:url" content="https://msfisgood.github.io/2022/03/28/sqlmap_tamper/index.html">
 <meta property="og:site_name" content="Y1Shui&#39;s blog">
-<meta property="og:description" content="准备 tample sqlmap中的模块，用于自定义编码payload绕过防护设备 本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收   查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码 js2py库，用于使用python调用js  编写tample 需要调用外部js，即获取到的js加密代码    js2py库，用于调">
+<meta property="og:description" content="准备 tamper sqlmap中的模块，用于自定义编码payload绕过防护设备 本文使用tamper并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收   查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码 js2py库，用于使用python调用js  编写tamper 需要调用外部js，即获取到的js加密代码    js2py库，用于调">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/31/HhA1W5ZO7BxiDeM.png">
 <meta property="article:published_time" content="2022-03-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-31T07:19:12.237Z">
+<meta property="article:modified_time" content="2022-04-02T07:42:03.544Z">
 <meta property="article:author" content="Y1Shui">
 <meta property="article:tag" content="Sqlmap">
 <meta name="twitter:card" content="summary">
@@ -232,7 +232,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-31 15:19:12" itemprop="dateModified" datetime="2022-03-31T15:19:12+08:00">2022-03-31</time>
+                <time title="修改时间：2022-04-02 15:42:03" itemprop="dateModified" datetime="2022-04-02T15:42:03+08:00">2022-04-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -270,15 +270,15 @@
 
       
         <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
-<li>tample<ul>
+<li>tamper<ul>
 <li>sqlmap中的模块，用于自定义编码payload绕过防护设备</li>
-<li>本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
+<li>本文使用tamper并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
 </ul>
 </li>
 <li>查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码</li>
 <li>js2py库，用于使用python调用js</li>
 </ul>
-<h2 id="编写tample"><a href="#编写tample" class="headerlink" title="编写tample"></a>编写tample</h2><ol>
+<h2 id="编写tamper"><a href="#编写tamper" class="headerlink" title="编写tamper"></a>编写tamper</h2><ol>
 <li>需要调用外部js，即获取到的js加密代码</li>
 </ol>
 <p><img src="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png"></p>
@@ -291,10 +291,10 @@
 <li><p>payload处理</p>
 </li>
 </ol>
-<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tample进行处理，所以只能通过tample把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
+<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tamper进行处理，所以只能通过tamper把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
 <p><img src="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png"></p>
 <ol start="4">
-<li>到这里思路基本理清楚了，原参数–&gt;调用tample–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
+<li>到这里思路基本理清楚了，原参数–&gt;调用tamper–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
 </ol>
 <p><img src="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png"></p>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>sqlmap -r .\11.txt -p &quot;xxx&quot; --tamper=test.py --dbms=mssql --force-ssl --proxy=http://127.0.0.1:8080</code></p>
@@ -407,7 +407,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99tample"><span class="nav-number">2.</span> <span class="nav-text">编写tample</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99tamper"><span class="nav-number">2.</span> <span class="nav-text">编写tamper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

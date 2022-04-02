@@ -318,7 +318,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-31 15:19:12" itemprop="dateModified" datetime="2022-03-31T15:19:12+08:00">2022-03-31</time>
+                <time title="修改时间：2022-04-02 15:42:03" itemprop="dateModified" datetime="2022-04-02T15:42:03+08:00">2022-04-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -356,15 +356,15 @@
 
       
           <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
-<li>tample<ul>
+<li>tamper<ul>
 <li>sqlmap中的模块，用于自定义编码payload绕过防护设备</li>
-<li>本文使用tample并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
+<li>本文使用tamper并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
 </ul>
 </li>
 <li>查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码</li>
 <li>js2py库，用于使用python调用js</li>
 </ul>
-<h2 id="编写tample"><a href="#编写tample" class="headerlink" title="编写tample"></a>编写tample</h2><ol>
+<h2 id="编写tamper"><a href="#编写tamper" class="headerlink" title="编写tamper"></a>编写tamper</h2><ol>
 <li>需要调用外部js，即获取到的js加密代码</li>
 </ol>
 <p><img src="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png"></p>
@@ -377,10 +377,10 @@
 <li><p>payload处理</p>
 </li>
 </ol>
-<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tample进行处理，所以只能通过tample把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
+<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tamper进行处理，所以只能通过tamper把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
 <p><img src="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png"></p>
 <ol start="4">
-<li>到这里思路基本理清楚了，原参数–&gt;调用tample–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
+<li>到这里思路基本理清楚了，原参数–&gt;调用tamper–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
 </ol>
 <p><img src="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png"></p>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>sqlmap -r .\11.txt -p &quot;xxx&quot; --tamper=test.py --dbms=mssql --force-ssl --proxy=http://127.0.0.1:8080</code></p>
