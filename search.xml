@@ -282,4 +282,47 @@
         <tag>frida</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CryptoJS获取密钥tip</title>
+    <url>/2022/07/07/CryptoJS/</url>
+    <content><![CDATA[<h2 id="CryptoJS获取加密密钥"><a href="#CryptoJS获取加密密钥" class="headerlink" title="CryptoJS获取加密密钥"></a>CryptoJS获取加密密钥</h2><p><strong>网站登录包加密</strong></p>
+<p><img src="https://s2.loli.net/2022/07/07/6Sz4qfG97YJNAIr.png" alt="image-20220707183538777"></p>
+<p><strong>在网站资源搜索AES、DES等字符，定位加密函数并下断点</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">k.a.AES.encrypt(c()(t.data), A, &#123;</span><br><span class="line">                    iv: q,</span><br><span class="line">                    mode: k.a.mode.CBC,</span><br><span class="line">                    padding: k.a.pad.Pkcs7</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://s2.loli.net/2022/07/07/yrn6JMDZBuNs4iw.png" alt="image-20220707183743662"></p>
+<p><strong>获取加密函数A(key)和q(iv)的值</strong></p>
+<p>此处密钥不是明文而是CryptoJS专有的WordArray格式</p>
+<p><img src="https://s2.loli.net/2022/07/07/f54e8Ul3rzabgBS.png" alt="image-20220707184041511"></p>
+<p><strong>本地资源下载</strong></p>
+<p><code>npm install crypto-js</code></p>
+<p>查阅资料可知，WordArray格式一般由<code>CryptoJS.enc.Utf8.parse()</code>方法转换原始字符串而来，由<code>CryptoJS.enc.Utf8.stringify()</code>方法将WordArray转换为原始字符串，那在这里使用<code>CryptoJS.enc.Utf8.stringify()</code>方法即可进行转换</p>
+<p><strong>确定WordArray格式</strong></p>
+<p>在CryptoJS代码中查找<code>CryptoJS.enc.Utf8.stringify()</code>方法，对words和sigBytes进行了解析</p>
+<p><img src="https://s2.loli.net/2022/07/07/yHMU78itdEbX1L5.png" alt="image-20220707185331507"></p>
+<p>使用<code>CryptoJS.enc.Utf8.parse()</code>转换一个字符串，查看下WordArray格式</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var CryptoJS = require(&quot;crypto-js&quot;);</span><br><span class="line"></span><br><span class="line">var a = CryptoJS.enc.Utf8.parse(&quot;Y1shui1111111111&quot;); //16位密钥</span><br><span class="line"></span><br><span class="line">console.log(a);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<p><img src="https://s2.loli.net/2022/07/07/dbvmplMqA3crJy7.png" alt="image-20220707184830662"></p>
+<p>根据浏览器断点获取的WordArray，转换出key和iv</p>
+<p><img src="https://s2.loli.net/2022/07/07/wqRAuJmNtyoWgnM.png" alt="image-20220707185926290"></p>
+<p>key:</p>
+<p><img src="https://s2.loli.net/2022/07/07/ILK9f4uNmXE3enT.png" alt="image-20220707185641730"></p>
+<p>iv：</p>
+<p><img src="https://s2.loli.net/2022/07/07/Szk5RngHhPEu6MG.png" alt="image-20220707185543105"></p>
+<p><strong>解密明文</strong></p>
+<p><img src="https://s2.loli.net/2022/07/07/ISNJT1ajFzW9cM4.png" alt="image-20220707185741155"></p>
+<p><strong>总结</strong></p>
+<p>文章并不复杂，但中间由于把脚本WordArray位置添加了双引号，导致一直无法转换成功……</p>
+]]></content>
+      <categories>
+        <category>客户端解密</category>
+      </categories>
+      <tags>
+        <tag>JS</tag>
+      </tags>
+  </entry>
 </search>
